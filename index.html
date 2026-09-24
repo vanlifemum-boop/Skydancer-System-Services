@@ -256,7 +256,7 @@ button, input, select, textarea { font: inherit; }
 .fahrzeug__buehne--3d::before { position: absolute; z-index: -1; inset: 0; background: linear-gradient(116deg, transparent 15%, rgba(110,216,255,.045) 49%, transparent 72%); content: ""; transform: translateX(-35%); animation: vehicle-scan 7s ease-in-out infinite; }
 .vehicle-badge { position: absolute; z-index: 5; top: 18px; left: 18px; display: flex; align-items: center; gap: 8px; padding: 7px 10px; border: 1px solid rgba(110,216,255,.24); border-radius: 100px; background: rgba(7,11,16,.58); color: #a8bbc6; font: 500 .59rem/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; backdrop-filter: blur(8px); }
 .vehicle-badge i { width: 6px; height: 6px; border-radius: 50%; background: var(--gruen); box-shadow: 0 0 12px var(--gruen); }
-.vehicle-scene { --vehicle-scale: .95; --vehicle-turn: -20deg; position: absolute; z-index: 2; inset: 0; outline: none; cursor: grab; perspective: 1100px; perspective-origin: 50% 44%; touch-action: pan-y; -webkit-user-select: none; user-select: none; }
+.vehicle-scene { --vehicle-scale: .93; --vehicle-turn: -32deg; position: absolute; z-index: 2; inset: 0; outline: none; cursor: grab; perspective: 1100px; perspective-origin: 50% 44%; touch-action: pan-y; -webkit-user-select: none; user-select: none; }
 .vehicle-scene:focus-visible { outline: 1px solid var(--blau); outline-offset: -5px; }
 .vehicle-scene.is-dragging { cursor: grabbing; }
 .vehicle-shadow { position: absolute; top: 69%; left: 50%; width: min(72%, 560px); height: 48px; border-radius: 50%; background: rgba(0,0,0,.72); filter: blur(18px); opacity: .85; transform: translate(-50%, -50%); }
@@ -321,7 +321,7 @@ button, input, select, textarea { font: inherit; }
 .bus-hotspot--kamera { top: 41%; right: -2%; }.bus-hotspot--smart { top: 50%; left: 55%; }.bus-hotspot--internet { top: 4%; left: 70%; }.bus-hotspot--security { top: 41%; right: 13%; }.bus-hotspot--autarkie { top: 82%; left: 39%; }
 .vehicle-hint { position: absolute; z-index: 4; right: 16px; bottom: 13px; left: 16px; color: #6f818d; font: 500 .57rem/1.4 var(--f-mono); letter-spacing: .06em; text-align: center; text-transform: uppercase; pointer-events: none; }.vehicle-hint span { margin-right: 6px; color: var(--blau); font-size: .85rem; }
 @keyframes hotspot { from { opacity: .5; transform: scale(.7); } to { opacity: 0; transform: scale(1.5); } }
-@keyframes vehicle-orbit { 0%,100% { transform: translate3d(-50%,-50%,0) rotateX(-7deg) rotateY(-28deg) scale(var(--vehicle-scale)); } 50% { transform: translate3d(-50%,-50%,0) rotateX(-7deg) rotateY(-8deg) scale(var(--vehicle-scale)); } }
+@keyframes vehicle-orbit { 0%,100% { transform: translate3d(-50%,-50%,0) rotateX(-7deg) rotateY(-42deg) scale(var(--vehicle-scale)); } 50% { transform: translate3d(-50%,-50%,0) rotateX(-7deg) rotateY(-22deg) scale(var(--vehicle-scale)); } }
 @keyframes vehicle-scan { 0%,100% { transform: translateX(-44%); } 50% { transform: translateX(48%); } }
 .modul-legende { display: flex; flex-wrap: wrap; gap: 7px; padding: 14px 16px; border-top: 1px solid var(--linie); }
 .modul-legende button { padding: .6em .9em; border: 1px solid var(--linie); border-radius: 100px; background: transparent; color: #8998a3; font: 500 .7rem/1 var(--f-mono); cursor: pointer; }
@@ -863,7 +863,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 
   var vehicleScene = document.querySelector("[data-vehicle-scene]");
   if (vehicleScene) {
-    var vehicleAngle = -20;
+    var vehicleAngle = -32;
     var dragStartX = 0;
     var dragStartAngle = vehicleAngle;
     var draggingVehicle = false;
@@ -900,7 +900,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
     vehicleScene.addEventListener("pointercancel", stopVehicleDrag);
     vehicleScene.addEventListener("dblclick", function (event) {
       if (event.target.closest("[data-modul]")) return;
-      vehicleAngle = -20;
+      vehicleAngle = -32;
       vehicleScene.classList.remove("is-manual", "is-dragging");
     });
     vehicleScene.addEventListener("keydown", function (event) {
