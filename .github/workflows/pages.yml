@@ -34,7 +34,7 @@ jobs:
       - name: Nur die Website einpacken
         run: |
           mkdir _site
-          cp -r index.html fonts .nojekyll _site/
+          cp -r index.html impressum.html datenschutz.html styles.css fonts .nojekyll _site/
 
       - uses: actions/upload-pages-artifact@v3
         with:
