@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
-<!-- Eigenständige Chrome-Vorschau: alle Medien, Schriften, Styles und Funktionen sind eingebettet. -->
+<!-- Eigenständige Chrome-Version: Medien, Schriften, Styles und Funktionen sind vollständig eingebettet. -->
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -245,13 +245,66 @@ button, input, select, textarea { font: inherit; }
 .fahrzeug { overflow: hidden; }
 .fahrzeug__kopf { display: flex; min-height: 48px; align-items: center; justify-content: space-between; gap: 20px; padding: 0 18px; border-bottom: 1px solid var(--linie); color: #81909b; font: 500 .65rem/1.3 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; }
 .fahrzeug__buehne { position: relative; min-height: 400px; background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: 40px 40px; }
-.fahrzeug__zeichnung { position: absolute; top: 50%; left: 0; width: 100%; height: auto; transform: translateY(-50%); }
-.hotspot { position: absolute; display: grid; width: 38px; height: 38px; place-items: center; padding: 0; border: 1px solid var(--blau); border-radius: 50%; background: rgba(7,11,16,.86); color: var(--eis); font: 500 .68rem/1 var(--f-mono); cursor: pointer; transform: translate(-50%, -50%); transition: background .2s, color .2s, transform .2s; }
-.hotspot::after { position: absolute; inset: -8px; border: 1px solid var(--blau); border-radius: 50%; content: ""; opacity: .35; animation: hotspot 2.8s ease-out infinite; }
-.hotspot:hover { transform: translate(-50%, -50%) scale(1.08); }
-.hotspot[aria-pressed="true"] { background: var(--blau); color: var(--nacht); }
-.hotspot[aria-pressed="true"]::after { animation: none; opacity: 0; }
+.fahrzeug__buehne--3d { min-height: 440px; overflow: hidden; isolation: isolate; background-color: #09131c; background-image: radial-gradient(ellipse at 52% 44%, rgba(56,175,218,.16), transparent 52%), linear-gradient(rgba(255,255,255,.043) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.043) 1px, transparent 1px); }
+.fahrzeug__buehne--3d::before { position: absolute; z-index: -1; inset: 0; background: linear-gradient(116deg, transparent 15%, rgba(110,216,255,.045) 49%, transparent 72%); content: ""; transform: translateX(-35%); animation: vehicle-scan 7s ease-in-out infinite; }
+.vehicle-badge { position: absolute; z-index: 5; top: 18px; left: 18px; display: flex; align-items: center; gap: 8px; padding: 7px 10px; border: 1px solid rgba(110,216,255,.24); border-radius: 100px; background: rgba(7,11,16,.58); color: #a8bbc6; font: 500 .59rem/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; backdrop-filter: blur(8px); }
+.vehicle-badge i { width: 6px; height: 6px; border-radius: 50%; background: var(--gruen); box-shadow: 0 0 12px var(--gruen); }
+.vehicle-scene { --vehicle-scale: .95; --vehicle-turn: -20deg; position: absolute; z-index: 2; inset: 0; outline: none; cursor: grab; perspective: 1100px; perspective-origin: 50% 44%; touch-action: pan-y; -webkit-user-select: none; user-select: none; }
+.vehicle-scene:focus-visible { outline: 1px solid var(--blau); outline-offset: -5px; }
+.vehicle-scene.is-dragging { cursor: grabbing; }
+.vehicle-shadow { position: absolute; top: 69%; left: 50%; width: min(72%, 560px); height: 48px; border-radius: 50%; background: rgba(0,0,0,.72); filter: blur(18px); opacity: .85; transform: translate(-50%, -50%); }
+.vehicle-orbit { position: absolute; top: 49%; left: 50%; width: 560px; height: 190px; transform-style: preserve-3d; animation: vehicle-orbit 9s ease-in-out infinite; will-change: transform; }
+.vehicle-scene.is-manual .vehicle-orbit { animation: none; transform: translate3d(-50%,-50%,0) rotateX(-7deg) rotateY(var(--vehicle-turn)) scale(var(--vehicle-scale)); }
+.bus-3d { position: relative; width: 560px; height: 190px; transform-style: preserve-3d; }
+.bus-face { position: absolute; overflow: hidden; border: 1px solid rgba(234,244,249,.35); box-shadow: inset 0 0 28px rgba(255,255,255,.08); backface-visibility: hidden; transform-style: preserve-3d; }
+.bus-face--side { inset: 0; overflow: visible; border-radius: 30px 8px 13px 22px; background: linear-gradient(104deg, #7d8c95 0%, #e8eef1 20%, #f7f9fa 52%, #aab7be 100%); }
+.bus-face--side::before { position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(180deg, rgba(255,255,255,.42), transparent 16%, transparent 68%, rgba(13,25,34,.23)), linear-gradient(108deg, transparent 0 28%, rgba(255,255,255,.4) 42%, transparent 57%); content: ""; pointer-events: none; }
+.bus-face--side-a { transform: translateZ(68px); }
+.bus-face--side-b { transform: rotateY(180deg) translateZ(68px); }
+.bus-glass { position: absolute; top: 20px; right: 16px; left: 16px; display: grid; height: 71px; grid-template-columns: 1.12fr .92fr 1.05fr .8fr .72fr; gap: 7px; }
+.bus-glass i { position: relative; overflow: hidden; border: 1px solid rgba(183,224,242,.5); border-radius: 6px; background: linear-gradient(135deg, #07121c 8%, #153349 58%, #244c63); box-shadow: inset 0 0 18px rgba(5,10,15,.8); }
+.bus-glass i::after { position: absolute; inset: 0; background: linear-gradient(118deg, transparent 20%, rgba(189,233,249,.21) 37%, transparent 54%); content: ""; }
+.bus-glass i:first-child { border-radius: 21px 6px 6px 6px; clip-path: polygon(12% 0,100% 0,100% 100%,0 100%,0 28%); }
+.bus-glass i:last-child { border-radius: 6px 5px 5px 6px; }
+.bus-swoosh { position: absolute; top: 96px; right: -2px; left: -2px; height: 36px; background: linear-gradient(176deg, transparent 0 31%, #14374a 33% 51%, var(--blau) 52% 56%, rgba(255,255,255,.82) 57% 59%, transparent 60%); opacity: .92; }
+.bus-brand { position: absolute; top: 113px; left: 195px; display: flex; align-items: baseline; gap: 9px; color: #172833; letter-spacing: .13em; }
+.bus-brand b { font: 700 12px/1 var(--f-display); }
+.bus-brand span { color: #49616f; font: 500 6px/1 var(--f-mono); }
+.bus-door { position: absolute; z-index: 2; top: 17px; right: 116px; width: 63px; height: 147px; border: 2px solid #263a46; border-radius: 7px 7px 12px 12px; background: linear-gradient(145deg, rgba(231,239,243,.16), rgba(76,94,104,.08)); box-shadow: 0 0 0 1px rgba(255,255,255,.32); }
+.bus-door i { position: absolute; top: 10px; right: 8px; left: 8px; height: 54px; border-radius: 4px; background: linear-gradient(140deg, #0a1721, #1d4054); box-shadow: inset 0 0 16px #071019; }
+.bus-door span { position: absolute; top: 77px; right: 7px; width: 3px; height: 12px; border-radius: 3px; background: #2b3d47; }
+.bus-bay { position: absolute; bottom: 14px; height: 38px; border: 1px solid rgba(35,53,63,.55); border-radius: 4px; background: linear-gradient(180deg, rgba(35,52,61,.08), rgba(27,44,53,.2)); box-shadow: inset 0 1px rgba(255,255,255,.35); }
+.bus-bay--1 { left: 23px; width: 143px; }.bus-bay--2 { left: 177px; width: 139px; }.bus-bay--3 { right: 22px; width: 91px; }
+.bus-wheel { position: absolute; z-index: 3; bottom: -28px; width: 84px; height: 84px; border: 7px solid #080d12; border-radius: 50%; background: radial-gradient(circle, #15232d 0 17%, #9eafb8 18% 25%, #263640 26% 38%, #cbd5da 39% 42%, #131d24 43% 63%, #06090c 64%); box-shadow: 0 5px 18px rgba(0,0,0,.65), inset 0 0 0 2px #202a30; transform: translateZ(4px); }
+.bus-wheel::before { position: absolute; inset: 19px; border: 1px solid #8ca0ab; border-radius: 50%; content: ""; background: repeating-conic-gradient(from 4deg, transparent 0 15deg, rgba(203,216,223,.7) 16deg 21deg); }
+.bus-wheel i { position: absolute; inset: 31px; z-index: 2; border-radius: 50%; background: radial-gradient(circle at 35% 32%, #dce5e9, #435660 70%); }
+.bus-wheel--rear { left: 69px; }.bus-wheel--front { right: 55px; }
+.bus-face--front, .bus-face--rear { top: 0; left: 212px; width: 136px; height: 190px; }
+.bus-face--front { border-radius: 8px 26px 16px 8px; background: linear-gradient(155deg, #e7edf0, #85959e 67%, #30424d); transform: rotateY(90deg) translateZ(280px); }
+.bus-windshield { position: absolute; top: 13px; right: 10px; left: 10px; height: 91px; overflow: hidden; border: 2px solid #7891a0; border-radius: 7px 19px 5px 5px; background: linear-gradient(145deg, #07111a 12%, #14384e 67%, #30708c); box-shadow: inset 0 0 22px #03080c; }
+.bus-windshield::after { position: absolute; inset: 0; background: linear-gradient(113deg, transparent 17%, rgba(175,229,249,.25) 34%, transparent 52%); content: ""; }
+.bus-windshield i { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: rgba(178,205,217,.35); }
+.bus-frontline { position: absolute; top: 111px; right: 0; left: 0; height: 5px; background: linear-gradient(90deg, #175c7b, var(--blau), #175c7b); box-shadow: 0 0 12px rgba(110,216,255,.45); }
+.bus-light { position: absolute; top: 126px; width: 31px; height: 10px; border-radius: 2px 8px 8px 2px; background: #e9fbff; box-shadow: 0 0 12px rgba(167,235,255,.8); }.bus-light--l { left: 10px; }.bus-light--r { right: 10px; transform: scaleX(-1); }
+.bus-grille { position: absolute; right: 25px; bottom: 14px; left: 25px; display: grid; gap: 4px; }.bus-grille i { height: 2px; background: rgba(15,27,34,.75); }
+.bus-emblem { position: absolute; bottom: 35px; left: 50%; display: grid; width: 23px; height: 23px; place-items: center; border: 1px solid rgba(227,240,246,.8); border-radius: 50%; background: #1a2b35; color: var(--blau); font: 700 11px/1 var(--f-display); transform: translateX(-50%); }
+.bus-face--rear { border-radius: 24px 6px 8px 15px; background: linear-gradient(145deg, #dce5e9, #71838d); transform: rotateY(-90deg) translateZ(280px); }
+.bus-rear-window { position: absolute; top: 14px; right: 12px; left: 12px; height: 68px; border: 1px solid #607d8c; border-radius: 16px 5px 5px 5px; background: linear-gradient(135deg, #09141d, #1d4054); box-shadow: inset 0 0 18px #050a0e; }
+.bus-tail { position: absolute; top: 96px; width: 8px; height: 48px; border-radius: 5px; background: linear-gradient(#ff5d57 0 36%, #ffcb68 37% 54%, #d91f2b 55%); box-shadow: 0 0 9px rgba(255,74,66,.5); }.bus-tail--l { left: 11px; }.bus-tail--r { right: 11px; }
+.bus-rear-panel { position: absolute; right: 27px; bottom: 16px; left: 27px; height: 30px; border: 1px solid #455b67; border-radius: 4px; background: rgba(21,36,45,.12); }.bus-face--rear > span { position: absolute; top: 103px; right: 0; left: 0; color: #2b414d; font: 600 7px/1 var(--f-mono); letter-spacing: .16em; text-align: center; }
+.bus-face--roof, .bus-face--floor { left: 0; width: 560px; height: 136px; }
+.bus-face--roof { top: 27px; overflow: visible; border-radius: 16px; background: linear-gradient(90deg, #7d8d96, #e5ebee 24%, #bac6cc 72%, #71818a); transform: rotateX(90deg) translateZ(95px); }
+.roof-panel { position: absolute; top: 20px; height: 90px; border: 2px solid #354c59; border-radius: 3px; background: repeating-linear-gradient(90deg, transparent 0 18px, rgba(117,191,216,.2) 19px 20px), repeating-linear-gradient(0deg, #0f2a3a 0 13px, #173e52 14px 15px); box-shadow: 0 2px 5px rgba(0,0,0,.25); }.roof-panel--1 { left: 72px; width: 118px; }.roof-panel--2 { left: 200px; width: 118px; }.roof-panel--3 { left: 328px; width: 91px; }
+.roof-dome { position: absolute; top: 42px; right: 58px; width: 72px; height: 52px; border: 2px solid #78909c; border-radius: 50%; background: radial-gradient(ellipse at 50% 24%, #eef5f7, #8a9aa2 70%); box-shadow: 0 8px 14px rgba(0,0,0,.2); transform: translateZ(16px); }.roof-air { position: absolute; top: 34px; left: 18px; width: 42px; height: 65px; border: 2px solid #5e737e; border-radius: 7px; background: linear-gradient(90deg, #9aaab2, #e0e7ea, #7f9099); transform: translateZ(9px); }
+.bus-face--floor { top: 27px; background: #101920; transform: rotateX(-90deg) translateZ(95px); }
+.bus-hotspot { position: absolute; z-index: 12; display: grid; width: 35px; height: 35px; place-items: center; padding: 0; border: 1px solid var(--blau); border-radius: 50%; background: rgba(7,11,16,.91); color: var(--eis); font: 500 9px/1 var(--f-mono); cursor: pointer; transform: translate(-50%,-50%) translateZ(8px); transition: background .2s, color .2s, scale .2s; }
+.bus-hotspot::after { position: absolute; inset: -8px; border: 1px solid var(--blau); border-radius: 50%; content: ""; opacity: .35; animation: hotspot 2.8s ease-out infinite; }
+.bus-hotspot:hover { scale: 1.1; }.bus-hotspot[aria-pressed="true"] { background: var(--blau); color: var(--nacht); }.bus-hotspot[aria-pressed="true"]::after { animation: none; opacity: 0; }
+.bus-hotspot--kamera { top: 41%; right: -2%; }.bus-hotspot--smart { top: 50%; left: 55%; }.bus-hotspot--internet { top: 4%; left: 70%; }.bus-hotspot--security { top: 41%; right: 13%; }.bus-hotspot--autarkie { top: 82%; left: 39%; }
+.vehicle-hint { position: absolute; z-index: 4; right: 16px; bottom: 13px; left: 16px; color: #6f818d; font: 500 .57rem/1.4 var(--f-mono); letter-spacing: .06em; text-align: center; text-transform: uppercase; pointer-events: none; }.vehicle-hint span { margin-right: 6px; color: var(--blau); font-size: .85rem; }
 @keyframes hotspot { from { opacity: .5; transform: scale(.7); } to { opacity: 0; transform: scale(1.5); } }
+@keyframes vehicle-orbit { 0%,100% { transform: translate3d(-50%,-50%,0) rotateX(-7deg) rotateY(-25deg) scale(var(--vehicle-scale)); } 50% { transform: translate3d(-50%,-50%,0) rotateX(-7deg) rotateY(3deg) scale(var(--vehicle-scale)); } }
+@keyframes vehicle-scan { 0%,100% { transform: translateX(-44%); } 50% { transform: translateX(48%); } }
 .modul-legende { display: flex; flex-wrap: wrap; gap: 7px; padding: 14px 16px; border-top: 1px solid var(--linie); }
 .modul-legende button { padding: .6em .9em; border: 1px solid var(--linie); border-radius: 100px; background: transparent; color: #8998a3; font: 500 .7rem/1 var(--f-mono); cursor: pointer; }
 .modul-legende button:hover, .modul-legende button[aria-pressed="true"] { border-color: var(--blau); color: var(--eis); }
@@ -513,7 +566,12 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   .service__fuss > span { grid-column: 1 / -1; }
   .fahrzeug__kopf span:last-child { display: none; }
   .fahrzeug__buehne { min-height: 280px; }
-  .hotspot { width: 31px; height: 31px; font-size: .6rem; }
+  .fahrzeug__buehne--3d { min-height: 330px; }
+  .vehicle-scene { --vehicle-scale: .56; perspective: 850px; }
+  .vehicle-orbit { top: 48%; }
+  .vehicle-shadow { top: 65%; width: 68%; height: 34px; }
+  .bus-hotspot { width: 34px; height: 34px; }
+  .vehicle-hint { bottom: 10px; font-size: .5rem; }
   .modul { min-height: 390px; padding: 24px; }
   .modul__index { top: 22px; right: 22px; font-size: 4rem; }
   .command__cta { grid-template-columns: 1fr; padding: 24px; }
@@ -546,6 +604,11 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   .marken span { font-size: .68rem; }
   .modul-legende { display: grid; grid-template-columns: repeat(2, 1fr); }
   .modul-legende button { text-align: left; }
+  .fahrzeug__buehne--3d { min-height: 300px; }
+  .vehicle-scene { --vehicle-scale: .48; }
+  .vehicle-orbit { top: 47%; }
+  .vehicle-badge { top: 12px; left: 12px; }
+  .vehicle-hint { right: 9px; left: 9px; letter-spacing: .03em; }
   .formular__nav { align-items: stretch; flex-direction: column-reverse; }
   .formular__nav #zurueck { margin-right: 0; }
 }
@@ -632,8 +695,41 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
         <div class="sek__kopf command__kopf"><p class="label">Skydancer Command Center</p><h2 id="command-titel">Alle Systeme.<br />Eine klare Oberfläche.</h2><p>Wählen Sie einen Systempunkt am Fahrzeug. Sie sehen, welche Technik dort arbeitet und wie sie mit dem Gesamtsystem zusammenspielt.</p></div>
         <div class="command__layout">
           <div class="fahrzeug">
-            <div class="fahrzeug__kopf"><span>Systemarchitektur</span><span>Luxusliner · Beispielkonfiguration</span></div>
-            <div class="fahrzeug__buehne"><img class="fahrzeug__zeichnung" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MDAgMzQwIiByb2xlPSJpbWciIGFyaWEtbGFiZWxsZWRieT0idGl0bGUgZGVzYyI+CiAgPHRpdGxlIGlkPSJ0aXRsZSI+U2t5ZGFuY2VyIEx1eHVzbGluZXI8L3RpdGxlPgogIDxkZXNjIGlkPSJkZXNjIj5UZWNobmlzY2hlIFNlaXRlbmFuc2ljaHQgZWluZXMgdm9sbGludGVncmllcnRlbiBMdXh1cy1SZWlzZW1vYmlsczwvZGVzYz4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYm9keSIgeDE9IjgwIiB5MT0iNjAiIHgyPSI3MjAiIHkyPSIyNzAiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzFhMjczMiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjAuNDgiIHN0b3AtY29sb3I9IiMxMjFkMjYiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMGMxNTFkIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJnbGFzcyIgeDE9IjcwIiB5MT0iNzAiIHgyPSI3MTAiIHkyPSIxNTAiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzE1MmIzOCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjAuNTUiIHN0b3AtY29sb3I9IiMwYTE1MWQiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMTIyNDMxIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJhY2NlbnQiIHgxPSI3MCIgeTE9IjAiIHgyPSI3MzAiIHkyPSIwIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CiAgICAgIDxzdG9wIHN0b3AtY29sb3I9IiM2ZWQ4ZmYiIHN0b3Atb3BhY2l0eT0iMC4yIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMC40MiIgc3RvcC1jb2xvcj0iIzZlZDhmZiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM2ZWQ4ZmYiIHN0b3Atb3BhY2l0eT0iMC4yMiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0icmltIj4KICAgICAgPHN0b3Agc3RvcC1jb2xvcj0iIzFlMzAzYyIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjAuNjIiIHN0b3AtY29sb3I9IiMxMTFhMjIiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDgwZDEyIi8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPGZpbHRlciBpZD0ic29mdC1nbG93IiB4PSItNTAlIiB5PSItNTAlIiB3aWR0aD0iMjAwJSIgaGVpZ2h0PSIyMDAlIj4KICAgICAgPGZlR2F1c3NpYW5CbHVyIHN0ZERldmlhdGlvbj0iMyIvPgogICAgPC9maWx0ZXI+CiAgPC9kZWZzPgoKICA8cGF0aCBkPSJNNjQgMzA3SDc1MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNmVkOGZmIiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1kYXNoYXJyYXk9IjUgOSIgb3BhY2l0eT0iMC4yOCIvPgogIDxwYXRoIGQ9Ik03MCAzMDRINzQ0IiBmaWxsPSJub25lIiBzdHJva2U9IiM2ZWQ4ZmYiIHN0cm9rZS13aWR0aD0iNSIgb3BhY2l0eT0iMC4wOCIgZmlsdGVyPSJ1cmwoI3NvZnQtZ2xvdykiLz4KCiAgPGcgc3Ryb2tlPSIjZGZlOWVmIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgogICAgPHBhdGggZD0iTTkyIDI3MEM2OSAyNzAgNTYgMjU3IDU1IDIzNEw1MiAxNTFDNTAgMTIxIDYzIDk3IDg5IDgyTDEyNiA2MUMxMzcgNTUgMTQ5IDUyIDE2NCA1Mkg3MDNDNzI1IDUyIDczOCA2OCA3NDEgOTBMNzQ4IDIzNUM3NTAgMjU3IDczNyAyNzAgNzE1IDI3MFoiIGZpbGw9InVybCgjYm9keSkiIHN0cm9rZS13aWR0aD0iMi4yIi8+CgogICAgPHBhdGggZD0iTTcxIDE0OEM2OSAxMjIgNzkgMTA1IDk5IDkzTDEzNyA3MkMxNDUgNjggMTU0IDY2IDE2NSA2NkgyMzlWMTQ4WiIgZmlsbD0idXJsKCNnbGFzcykiIHN0cm9rZS13aWR0aD0iMS44Ii8+CiAgICA8cGF0aCBkPSJNMTg0IDY3VjE0OCIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxLjEiIG9wYWNpdHk9IjAuNTUiLz4KICAgIDxwYXRoIGQ9Ik04MiAxMzNMMTQ1IDc4SDE3NCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNmVkOGZmIiBzdHJva2Utd2lkdGg9IjEiIG9wYWNpdHk9IjAuNDIiLz4KCiAgICA8cmVjdCB4PSIyNTUiIHk9IjY4IiB3aWR0aD0iMTUzIiBoZWlnaHQ9Ijc4IiByeD0iOSIgZmlsbD0idXJsKCNnbGFzcykiIHN0cm9rZS13aWR0aD0iMS44Ii8+CiAgICA8cmVjdCB4PSI0MjYiIHk9IjY4IiB3aWR0aD0iNzYiIGhlaWdodD0iMTg0IiByeD0iOSIgZmlsbD0iIzExMWMyNSIgc3Ryb2tlLXdpZHRoPSIxLjgiLz4KICAgIDxyZWN0IHg9IjQzOSIgeT0iODEiIHdpZHRoPSI1MCIgaGVpZ2h0PSI2NyIgcng9IjYiIGZpbGw9InVybCgjZ2xhc3MpIiBzdHJva2Utd2lkdGg9IjEuMiIvPgogICAgPHJlY3QgeD0iNTIxIiB5PSI2OCIgd2lkdGg9IjE1MSIgaGVpZ2h0PSI3NiIgcng9IjkiIGZpbGw9InVybCgjZ2xhc3MpIiBzdHJva2Utd2lkdGg9IjEuOCIvPgogICAgPHJlY3QgeD0iNjg2IiB5PSI2OCIgd2lkdGg9IjM5IiBoZWlnaHQ9Ijc2IiByeD0iNyIgZmlsbD0idXJsKCNnbGFzcykiIHN0cm9rZS13aWR0aD0iMS40Ii8+CgogICAgPHBhdGggZD0iTTY4IDE2NUMyNTUgMTU2IDUzNSAxNTYgNzMxIDE2OCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2FjY2VudCkiIHN0cm9rZS13aWR0aD0iMyIvPgogICAgPHBhdGggZD0iTTY5IDE3N0MyNjUgMTcxIDUzMSAxNzEgNzMzIDE4MSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZGZlOWVmIiBzdHJva2Utd2lkdGg9IjAuOCIgb3BhY2l0eT0iMC4yNSIvPgogICAgPHBhdGggZD0iTTU3IDIwOEg3NDQiIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC4zNCIvPgoKICAgIDxnIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgb3BhY2l0eT0iMC41OCI+CiAgICAgIDxyZWN0IHg9IjkxIiB5PSIyMTkiIHdpZHRoPSIxMjYiIGhlaWdodD0iMzUiIHJ4PSI1Ii8+CiAgICAgIDxyZWN0IHg9IjIzMCIgeT0iMjE5IiB3aWR0aD0iMTI2IiBoZWlnaHQ9IjM1IiByeD0iNSIvPgogICAgICA8cmVjdCB4PSI1MjEiIHk9IjIxOSIgd2lkdGg9IjkyIiBoZWlnaHQ9IjM1IiByeD0iNSIvPgogICAgICA8cmVjdCB4PSI2MjUiIHk9IjIxOSIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIzNSIgcng9IjUiLz4KICAgICAgPHBhdGggZD0iTTM3MSAyMTlINDEwTTM3MSAyMzJINDEwTTM3MSAyNDVINDEwIi8+CiAgICA8L2c+CgogICAgPHBhdGggZD0iTTQzNyAyNTRWMjcwSDUxMlYyNTQiIGZpbGw9IiMwYTExMTgiIHN0cm9rZS13aWR0aD0iMS40Ii8+CiAgICA8cGF0aCBkPSJNNDUwIDI1OEg0OTkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzZlZDhmZiIgc3Ryb2tlLXdpZHRoPSIxLjIiIG9wYWNpdHk9IjAuNjUiLz4KICAgIDxjaXJjbGUgY3g9IjQ4NiIgY3k9IjE2OCIgcj0iMi40IiBmaWxsPSIjNmVkOGZmIiBzdHJva2U9Im5vbmUiLz4KICAgIDxyZWN0IHg9IjQ4NCIgeT0iMTY5IiB3aWR0aD0iNyIgaGVpZ2h0PSIyIiByeD0iMSIgZmlsbD0iI2RmZTllZiIgc3Ryb2tlPSJub25lIi8+CgogICAgPHBhdGggZD0iTTU3IDE4NEg2OEM3NSAxODQgNzkgMTg5IDc5IDE5NlYyMDdINTciIGZpbGw9IiMxNTIzMmQiIHN0cm9rZS13aWR0aD0iMS40Ii8+CiAgICA8cGF0aCBkPSJNNjEgMTkwSDcyIiBmaWxsPSJub25lIiBzdHJva2U9IiM2ZWQ4ZmYiIHN0cm9rZS13aWR0aD0iMiIvPgogICAgPHJlY3QgeD0iNzM1IiB5PSIxMDgiIHdpZHRoPSI4IiBoZWlnaHQ9IjM5IiByeD0iMyIgZmlsbD0iIzExMWEyMiIgc3Ryb2tlLXdpZHRoPSIxLjEiLz4KICAgIDxwYXRoIGQ9Ik03MzcgMTE0SDc0Mk03MzggMTI2SDc0M003MzkgMTM4SDc0NCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNmVkOGZmIiBzdHJva2Utd2lkdGg9IjEuNCIgb3BhY2l0eT0iMC44Ii8+CgogICAgPHBhdGggZD0iTTc4IDkxTDY1IDc0IiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjEuNCIvPgogICAgPHJlY3QgeD0iNTQiIHk9IjY0IiB3aWR0aD0iMjAiIGhlaWdodD0iMTQiIHJ4PSI0IiBmaWxsPSIjMTAxOTIyIiBzdHJva2Utd2lkdGg9IjEuNSIvPgogICAgPGNpcmNsZSBjeD0iNjQiIGN5PSI3MSIgcj0iMi4yIiBmaWxsPSIjNmVkOGZmIiBzdHJva2U9Im5vbmUiLz4KCiAgICA8ZyBmaWxsPSIjMTAxOTIyIiBzdHJva2Utd2lkdGg9IjEuMiI+CiAgICAgIDxwYXRoIGQ9Ik0yNjcgNTJWNDBIMzk3VjUyWiIvPgogICAgICA8cGF0aCBkPSJNNDE0IDUyVjQwSDU0MlY1MloiLz4KICAgICAgPHBhdGggZD0iTTU2MiA1MlY0NUg2MDRWNTJaIi8+CiAgICA8L2c+CiAgICA8cGF0aCBkPSJNNjE3IDUyVjQ3SDY3MFY1MiIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxLjIiLz4KICAgIDxwYXRoIGQ9Ik02MjUgNDZDNjI3IDM0IDYzNyAyOSA2NDYgMjlDNjU2IDI5IDY2NSAzNSA2NjcgNDZaIiBmaWxsPSIjMTAxOTIyIiBzdHJva2Utd2lkdGg9IjEuMiIvPgoKICAgIDxnIGZpbGw9IiMwNjBhMGUiIHN0cm9rZS13aWR0aD0iMiI+CiAgICAgIDxjaXJjbGUgY3g9IjE4OCIgY3k9IjI2OSIgcj0iNDIiLz4KICAgICAgPGNpcmNsZSBjeD0iNjM4IiBjeT0iMjY5IiByPSI0MiIvPgogICAgPC9nPgogICAgPGcgZmlsbD0idXJsKCNyaW0pIiBzdHJva2Utd2lkdGg9IjEuNyI+CiAgICAgIDxjaXJjbGUgY3g9IjE4OCIgY3k9IjI2OSIgcj0iMjYiLz4KICAgICAgPGNpcmNsZSBjeD0iNjM4IiBjeT0iMjY5IiByPSIyNiIvPgogICAgPC9nPgogICAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxLjIiIG9wYWNpdHk9IjAuNzgiPgogICAgICA8Y2lyY2xlIGN4PSIxODgiIGN5PSIyNjkiIHI9IjEwIi8+CiAgICAgIDxjaXJjbGUgY3g9IjYzOCIgY3k9IjI2OSIgcj0iMTAiLz4KICAgICAgPHBhdGggZD0iTTE4OCAyNDNWMjU5TTE4OCAyNzlWMjk1TTE2MiAyNjlIMTc4TTE5OCAyNjlIMjE0TTE3MCAyNTFMMTgxIDI2Mk0xOTUgMjc2TDIwNiAyODdNMTcwIDI4N0wxODEgMjc2TTE5NSAyNjJMMjA2IDI1MSIvPgogICAgICA8cGF0aCBkPSJNNjM4IDI0M1YyNTlNNjM4IDI3OVYyOTVNNjEyIDI2OUg2MjhNNjQ4IDI2OUg2NjRNNjIwIDI1MUw2MzEgMjYyTTY0NSAyNzZMNjU2IDI4N002MjAgMjg3TDYzMSAyNzZNNjQ1IDI2Mkw2NTYgMjUxIi8+CiAgICA8L2c+CgogICAgPHBhdGggZD0iTTEwNSAyNzBWMjkzTTEwNSAyOTNIMTI0TTcyMCAyNzBWMjkzTTcwMSAyOTNINzIwIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjIuMyIvPgogIDwvZz4KCiAgPHRleHQgeD0iNTQ4IiB5PSIxOTkiIGZpbGw9IiM4ZGEwYWQiIGZvbnQtZmFtaWx5PSJ1aS1tb25vc3BhY2UsIFNGTW9uby1SZWd1bGFyLCBNZW5sbywgbW9ub3NwYWNlIiBmb250LXNpemU9IjciIGxldHRlci1zcGFjaW5nPSIxLjUiPlNLWURBTkNFUiDCtyBTWVNURU0gUExBVEZPUk08L3RleHQ+Cjwvc3ZnPgo=" width="800" height="340" alt="Technische Seitenansicht eines vollintegrierten Luxusliners mit fünf auswählbaren Systempunkten" /><button class="hotspot" style="left:11%;top:43%" type="button" data-modul="kamera" aria-pressed="false" aria-label="Kamera und Sicht anzeigen"><span>01</span></button><button class="hotspot" style="left:59%;top:50%" type="button" data-modul="smart" aria-pressed="true" aria-label="SmartCamper anzeigen"><span>02</span></button><button class="hotspot" style="left:80%;top:21%" type="button" data-modul="internet" aria-pressed="false" aria-label="Internet Pro anzeigen"><span>03</span></button><button class="hotspot" style="left:92%;top:42%" type="button" data-modul="security" aria-pressed="false" aria-label="Security und Recovery anzeigen"><span>04</span></button><button class="hotspot" style="left:42%;top:75%" type="button" data-modul="autarkie" aria-pressed="false" aria-label="Autarkie und Komfort anzeigen"><span>05</span></button></div>
+            <div class="fahrzeug__kopf"><span>Systemarchitektur</span><span>Grand Tourer · Interaktives 3D-Modell</span></div>
+            <div class="fahrzeug__buehne fahrzeug__buehne--3d">
+              <div class="vehicle-badge"><i></i> 3D Live View</div>
+              <div class="vehicle-scene" data-vehicle-scene tabindex="0" role="group" aria-label="Drehbares 3D-Modell eines busförmigen Luxus-Reisemobils. Mit Maus oder Finger ziehen, um das Fahrzeug zu drehen.">
+                <div class="vehicle-shadow" aria-hidden="true"></div>
+                <div class="vehicle-orbit" data-vehicle-orbit>
+                  <div class="bus-3d">
+                    <div class="bus-face bus-face--side bus-face--side-a">
+                      <div class="bus-glass"><i></i><i></i><i></i><i></i><i></i></div>
+                      <div class="bus-swoosh"></div><div class="bus-brand"><b>SKYDANCER</b><span>GRAND TOURER</span></div>
+                      <div class="bus-door"><i></i><span></span></div>
+                      <div class="bus-bay bus-bay--1"></div><div class="bus-bay bus-bay--2"></div><div class="bus-bay bus-bay--3"></div>
+                      <div class="bus-wheel bus-wheel--rear"><i></i><span></span></div><div class="bus-wheel bus-wheel--front"><i></i><span></span></div>
+                      <button class="bus-hotspot bus-hotspot--kamera" type="button" data-modul="kamera" aria-pressed="false" aria-label="Kamera und Sicht anzeigen"><span>01</span></button>
+                      <button class="bus-hotspot bus-hotspot--smart" type="button" data-modul="smart" aria-pressed="true" aria-label="SmartCamper anzeigen"><span>02</span></button>
+                      <button class="bus-hotspot bus-hotspot--internet" type="button" data-modul="internet" aria-pressed="false" aria-label="Internet Pro anzeigen"><span>03</span></button>
+                      <button class="bus-hotspot bus-hotspot--security" type="button" data-modul="security" aria-pressed="false" aria-label="Security und Recovery anzeigen"><span>04</span></button>
+                      <button class="bus-hotspot bus-hotspot--autarkie" type="button" data-modul="autarkie" aria-pressed="false" aria-label="Autarkie und Komfort anzeigen"><span>05</span></button>
+                    </div>
+                    <div class="bus-face bus-face--side bus-face--side-b">
+                      <div class="bus-glass"><i></i><i></i><i></i><i></i><i></i></div>
+                      <div class="bus-swoosh"></div><div class="bus-brand"><b>SKYDANCER</b><span>GRAND TOURER</span></div>
+                      <div class="bus-door"><i></i><span></span></div>
+                      <div class="bus-bay bus-bay--1"></div><div class="bus-bay bus-bay--2"></div><div class="bus-bay bus-bay--3"></div>
+                      <div class="bus-wheel bus-wheel--rear"><i></i><span></span></div><div class="bus-wheel bus-wheel--front"><i></i><span></span></div>
+                    </div>
+                    <div class="bus-face bus-face--front"><div class="bus-windshield"><i></i></div><div class="bus-frontline"></div><i class="bus-light bus-light--l"></i><i class="bus-light bus-light--r"></i><div class="bus-grille"><i></i><i></i><i></i><i></i><i></i></div><span class="bus-emblem">S</span></div>
+                    <div class="bus-face bus-face--rear"><div class="bus-rear-window"></div><i class="bus-tail bus-tail--l"></i><i class="bus-tail bus-tail--r"></i><div class="bus-rear-panel"></div><span>SKYDANCER</span></div>
+                    <div class="bus-face bus-face--roof"><i class="roof-panel roof-panel--1"></i><i class="roof-panel roof-panel--2"></i><i class="roof-panel roof-panel--3"></i><i class="roof-dome"></i><i class="roof-air"></i></div>
+                    <div class="bus-face bus-face--floor"></div>
+                  </div>
+                </div>
+              </div>
+              <p class="vehicle-hint"><span aria-hidden="true">↔</span> Ziehen zum Drehen · Pfeiltasten möglich · Doppeltippen für Automatik</p>
+            </div>
             <div class="modul-legende" aria-label="Systempunkt auswählen"><button type="button" data-modul="kamera" aria-pressed="false">01 Kamera</button><button type="button" data-modul="smart" aria-pressed="true">02 SmartCamper</button><button type="button" data-modul="internet" aria-pressed="false">03 Internet</button><button type="button" data-modul="security" aria-pressed="false">04 Security</button><button type="button" data-modul="autarkie" aria-pressed="false">05 Autarkie</button></div>
           </div>
           <article class="modul" aria-live="polite"><p class="modul__status" id="modul-status"><span></span> Zentrale · Tablet im Wohnraum</p><p class="modul__index" id="modul-index">02</p><h3 id="modul-titel">SmartCamper</h3><p id="modul-text">Ein Wandtablet und die App auf Ihrem Telefon bündeln Werte und Funktionen. Sensoren melden sich, bevor etwas knapp wird.</p><ul id="modul-liste"><li>Zentrale Steuerung mit Wandtablet und App</li><li>Einbindung von Truma, Dometic und Victron</li><li>Füllstand-, Gas- und Temperatursensoren</li></ul><div class="modul__linie" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div></article>
@@ -687,7 +783,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   <footer class="fuss" id="ueber">
     <div class="wrap">
       <div class="fuss__oben"><div><a class="logo logo--fuss" href="#top" aria-label="Skydancer, zum Seitenanfang"><img class="logo__bild" src="data:image/png;base64,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" width="174" height="134" alt="" /><span class="logo__zusatz">CabrioCamper Service</span></a><p>Premium-Systemintegration für Reisemobile. Geplant, eingebaut und dokumentiert als ein Gesamtsystem.</p></div><div class="fuss__cta"><p>Bereit für ein Reisemobil, das technisch zu Ihnen passt?</p><a class="btn" href="#technik-check">Projekt anfragen ↗</a></div></div>
-      <div class="fuss__raster"><div><h3>Leistungen</h3><ul><li><a href="#bausteine">Kamera &amp; Sicht</a></li><li><a href="#bausteine">SmartCamper</a></li><li><a href="#bausteine">Internet Pro</a></li><li><a href="#bausteine">Security &amp; Recovery</a></li></ul></div><div><h3>System</h3><ul><li><a href="#command-center">Command Center</a></li><li><a href="#pakete">Systempakete</a></li><li><a href="#ablauf">Projektablauf</a></li><li><a href="#technik-check">Technik-Check</a></li></ul></div><div><h3>Werkstatt</h3><p><span class="ph">Standort folgt</span></p><p>Termine und Demo-Tage nach Vereinbarung.</p></div><div><h3>Rechtliches</h3><ul><li><a href="https://vanlifemum-boop.github.io/Skydancer-System-Services/impressum.html">Impressum</a></li><li><a href="https://vanlifemum-boop.github.io/Skydancer-System-Services/datenschutz.html">Datenschutz</a></li></ul></div></div>
+      <div class="fuss__raster"><div><h3>Leistungen</h3><ul><li><a href="#bausteine">Kamera &amp; Sicht</a></li><li><a href="#bausteine">SmartCamper</a></li><li><a href="#bausteine">Internet Pro</a></li><li><a href="#bausteine">Security &amp; Recovery</a></li></ul></div><div><h3>System</h3><ul><li><a href="#command-center">Command Center</a></li><li><a href="#pakete">Systempakete</a></li><li><a href="#ablauf">Projektablauf</a></li><li><a href="#technik-check">Technik-Check</a></li></ul></div><div><h3>Werkstatt</h3><p><span class="ph">Standort folgt</span></p><p>Termine und Demo-Tage nach Vereinbarung.</p></div><div><h3>Rechtliches</h3><ul><li><a href="impressum.html">Impressum</a></li><li><a href="datenschutz.html">Datenschutz</a></li></ul></div></div>
       <div class="fuss__unten"><span>© <span id="jahr">2026</span> Skydancer System Services</span><span>Ein Ansprechpartner · Ein System · Eine geprüfte Übergabe</span></div>
     </div>
   </footer>
@@ -725,6 +821,55 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
     });
     navigation.querySelectorAll("a").forEach(function (link) { link.addEventListener("click", closeMenu); });
     document.addEventListener("keydown", function (event) { if (event.key === "Escape") closeMenu(); });
+  }
+
+  var vehicleScene = document.querySelector("[data-vehicle-scene]");
+  if (vehicleScene) {
+    var vehicleAngle = -20;
+    var dragStartX = 0;
+    var dragStartAngle = vehicleAngle;
+    var draggingVehicle = false;
+
+    function setVehicleAngle(angle) {
+      vehicleAngle = angle;
+      vehicleScene.style.setProperty("--vehicle-turn", angle + "deg");
+      vehicleScene.classList.add("is-manual");
+    }
+
+    function stopVehicleDrag(event) {
+      if (!draggingVehicle) return;
+      draggingVehicle = false;
+      vehicleScene.classList.remove("is-dragging");
+      if (event && vehicleScene.hasPointerCapture && vehicleScene.hasPointerCapture(event.pointerId)) {
+        vehicleScene.releasePointerCapture(event.pointerId);
+      }
+    }
+
+    vehicleScene.addEventListener("pointerdown", function (event) {
+      if (event.target.closest("[data-modul]") || (event.pointerType === "mouse" && event.button !== 0)) return;
+      draggingVehicle = true;
+      dragStartX = event.clientX;
+      dragStartAngle = vehicleAngle;
+      setVehicleAngle(vehicleAngle);
+      vehicleScene.classList.add("is-dragging");
+      vehicleScene.setPointerCapture(event.pointerId);
+    });
+    vehicleScene.addEventListener("pointermove", function (event) {
+      if (!draggingVehicle) return;
+      setVehicleAngle(dragStartAngle + (event.clientX - dragStartX) * .42);
+    });
+    vehicleScene.addEventListener("pointerup", stopVehicleDrag);
+    vehicleScene.addEventListener("pointercancel", stopVehicleDrag);
+    vehicleScene.addEventListener("dblclick", function (event) {
+      if (event.target.closest("[data-modul]")) return;
+      vehicleAngle = -20;
+      vehicleScene.classList.remove("is-manual", "is-dragging");
+    });
+    vehicleScene.addEventListener("keydown", function (event) {
+      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+      event.preventDefault();
+      setVehicleAngle(vehicleAngle + (event.key === "ArrowRight" ? 8 : -8));
+    });
   }
 
   var modules = {
@@ -935,6 +1080,6 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   }
 })();
 
-</script>
+  </script>
 </body>
 </html>
