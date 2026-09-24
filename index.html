@@ -256,7 +256,7 @@ button, input, select, textarea { font: inherit; }
 .fahrzeug__buehne--3d::before { position: absolute; z-index: -1; inset: 0; background: linear-gradient(116deg, transparent 15%, rgba(110,216,255,.045) 49%, transparent 72%); content: ""; transform: translateX(-35%); animation: vehicle-scan 7s ease-in-out infinite; }
 .vehicle-badge { position: absolute; z-index: 5; top: 18px; left: 18px; display: flex; align-items: center; gap: 8px; padding: 7px 10px; border: 1px solid rgba(110,216,255,.24); border-radius: 100px; background: rgba(7,11,16,.58); color: #a8bbc6; font: 500 .59rem/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; backdrop-filter: blur(8px); }
 .vehicle-badge i { width: 6px; height: 6px; border-radius: 50%; background: var(--gruen); box-shadow: 0 0 12px var(--gruen); }
-.vehicle-scene { --vehicle-scale: .95; --vehicle-turn: -20deg; position: absolute; z-index: 2; inset: 0; outline: none; cursor: grab; perspective: 1100px; perspective-origin: 50% 44%; touch-action: pan-y; -webkit-user-select: none; user-select: none; }
+.vehicle-scene { --vehicle-scale: .95; --vehicle-turn: 20deg; position: absolute; z-index: 2; inset: 0; outline: none; cursor: grab; perspective: 1100px; perspective-origin: 50% 44%; touch-action: pan-y; -webkit-user-select: none; user-select: none; }
 .vehicle-scene:focus-visible { outline: 1px solid var(--blau); outline-offset: -5px; }
 .vehicle-scene.is-dragging { cursor: grabbing; }
 .vehicle-shadow { position: absolute; top: 69%; left: 50%; width: min(72%, 560px); height: 48px; border-radius: 50%; background: rgba(0,0,0,.72); filter: blur(18px); opacity: .85; transform: translate(-50%, -50%); }
@@ -264,21 +264,29 @@ button, input, select, textarea { font: inherit; }
 .vehicle-scene.is-manual .vehicle-orbit { animation: none; transform: translate3d(-50%,-50%,0) rotateX(-7deg) rotateY(var(--vehicle-turn)) scale(var(--vehicle-scale)); }
 .bus-3d { position: relative; width: 560px; height: 190px; transform-style: preserve-3d; }
 .bus-face { position: absolute; overflow: hidden; border: 1px solid rgba(234,244,249,.35); box-shadow: inset 0 0 28px rgba(255,255,255,.08); backface-visibility: hidden; transform-style: preserve-3d; }
-.bus-face--side { inset: 0; overflow: visible; border-radius: 30px 8px 13px 22px; background: linear-gradient(104deg, #7d8c95 0%, #e8eef1 20%, #f7f9fa 52%, #aab7be 100%); }
+.bus-face--side { inset: 0; overflow: visible; border-radius: 7px 30px 17px 8px; background: linear-gradient(104deg, #a9b4ba 0%, #edf2f4 17%, #f8fafb 54%, #abb8bf 100%); }
 .bus-face--side::before { position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(180deg, rgba(255,255,255,.42), transparent 16%, transparent 68%, rgba(13,25,34,.23)), linear-gradient(108deg, transparent 0 28%, rgba(255,255,255,.4) 42%, transparent 57%); content: ""; pointer-events: none; }
 .bus-face--side-a { transform: translateZ(68px); }
 .bus-face--side-b { transform: rotateY(180deg) translateZ(68px); }
-.bus-glass { position: absolute; top: 20px; right: 16px; left: 16px; display: grid; height: 71px; grid-template-columns: 1.12fr .92fr 1.05fr .8fr .72fr; gap: 7px; }
-.bus-glass i { position: relative; overflow: hidden; border: 1px solid rgba(183,224,242,.5); border-radius: 6px; background: linear-gradient(135deg, #07121c 8%, #153349 58%, #244c63); box-shadow: inset 0 0 18px rgba(5,10,15,.8); }
-.bus-glass i::after { position: absolute; inset: 0; background: linear-gradient(118deg, transparent 20%, rgba(189,233,249,.21) 37%, transparent 54%); content: ""; }
-.bus-glass i:first-child { border-radius: 21px 6px 6px 6px; clip-path: polygon(12% 0,100% 0,100% 100%,0 100%,0 28%); }
-.bus-glass i:last-child { border-radius: 6px 5px 5px 6px; }
-.bus-swoosh { position: absolute; top: 96px; right: -2px; left: -2px; height: 36px; background: linear-gradient(176deg, transparent 0 31%, #14374a 33% 51%, var(--blau) 52% 56%, rgba(255,255,255,.82) 57% 59%, transparent 60%); opacity: .92; }
-.bus-brand { position: absolute; top: 113px; left: 195px; display: flex; align-items: baseline; gap: 9px; color: #172833; letter-spacing: .13em; }
-.bus-brand b { font: 700 12px/1 var(--f-display); }
-.bus-brand span { color: #49616f; font: 500 6px/1 var(--f-mono); }
-.bus-door { position: absolute; z-index: 2; top: 17px; right: 116px; width: 63px; height: 147px; border: 2px solid #263a46; border-radius: 7px 7px 12px 12px; background: linear-gradient(145deg, rgba(231,239,243,.16), rgba(76,94,104,.08)); box-shadow: 0 0 0 1px rgba(255,255,255,.32); }
-.bus-door i { position: absolute; top: 10px; right: 8px; left: 8px; height: 54px; border-radius: 4px; background: linear-gradient(140deg, #0a1721, #1d4054); box-shadow: inset 0 0 16px #071019; }
+.skydancer-rear-window { position: absolute; z-index: 1; top: 43px; left: 47px; width: 72px; height: 39px; border: 2px solid #667b87; border-radius: 3px; background: linear-gradient(135deg, #07121a, #17394c 68%, #285a70); box-shadow: inset 0 0 13px #050a0e, 0 1px rgba(255,255,255,.6); }
+.skydancer-rear-window::after { position: absolute; inset: 0; background: linear-gradient(116deg, transparent 22%, rgba(181,227,245,.2) 43%, transparent 60%); content: ""; }
+.skydancer-cockpit { position: absolute; z-index: 2; top: 10px; right: 8px; width: 240px; height: 112px; overflow: hidden; border: 3px solid #111b22; border-radius: 5px 20px 5px 4px; background: #050b10; box-shadow: inset 0 0 22px #000, 0 1px rgba(255,255,255,.5); clip-path: polygon(0 11%, 78% 0, 94% 10%, 100% 31%, 100% 100%, 0 100%); }
+.cockpit-glass { position: absolute; overflow: hidden; border: 1px solid rgba(133,177,196,.58); background: linear-gradient(135deg, #071018 3%, #15384c 62%, #2d6075); box-shadow: inset 0 0 16px rgba(2,7,11,.85); }
+.cockpit-glass::after { position: absolute; inset: 0; background: linear-gradient(117deg, transparent 15%, rgba(188,231,248,.22) 35%, transparent 55%); content: ""; }
+.cockpit-glass--salon { top: 12px; left: 8px; width: 116px; height: 59px; border-radius: 3px 4px 4px 3px; }
+.cockpit-glass--lower { bottom: 7px; left: 23px; width: 109px; height: 27px; border-radius: 10px 3px 3px 10px; }
+.cockpit-glass--driver { top: 7px; right: 6px; width: 100px; height: 96px; border-radius: 4px 15px 4px 4px; clip-path: polygon(0 7%, 72% 0, 91% 13%, 100% 30%, 100% 100%, 18% 100%, 0 64%); }
+.cockpit-seat { position: absolute; z-index: 2; top: 42px; width: 18px; height: 28px; border-radius: 9px 9px 5px 5px; background: linear-gradient(90deg, #6b4b34, #d2a275 48%, #6b4b34); box-shadow: 0 0 8px rgba(244,183,120,.22); opacity: .8; }
+.cockpit-seat::before { position: absolute; top: -9px; left: 3px; width: 12px; height: 12px; border-radius: 50%; background: #b7845d; content: ""; }.cockpit-seat--1 { left: 51px; }.cockpit-seat--2 { left: 91px; }
+.cabrio-rail { position: absolute; z-index: 3; top: -4px; right: 18px; width: 225px; height: 17px; border-radius: 2px 13px 2px 2px; background: linear-gradient(180deg, #f8fafb, #86959d 64%, #25343d 65% 78%, #dbe4e8 79%); box-shadow: 0 2px 3px rgba(0,0,0,.25); transform: translateZ(2px); }
+.cabrio-rail i { position: absolute; top: 2px; right: 35px; width: 88px; height: 6px; border-radius: 5px; background: #0a1319; box-shadow: -70px 0 0 #6d7b82; }
+.bus-swoosh { position: absolute; z-index: 1; top: 98px; right: -1px; left: -1px; height: 78px; background: linear-gradient(180deg, transparent 0 11%, #596a74 12% 31%, transparent 32%), linear-gradient(90deg, transparent 0 54%, rgba(94,106,114,.92) 54% 100%); opacity: .96; }
+.bus-swoosh::after { position: absolute; top: 28px; right: 0; left: 0; height: 3px; background: linear-gradient(90deg, #394e59, #7fdfff 60%, #f4f7f9); content: ""; box-shadow: 0 0 7px rgba(110,216,255,.38); }
+.bus-brand { position: absolute; z-index: 4; top: 112px; left: 319px; display: flex; align-items: baseline; gap: 7px; color: #1a2c36; letter-spacing: -.04em; }
+.bus-brand b { font: 500 21px/1 var(--f-display); }
+.bus-brand span { color: #435a67; font: 500 6px/1 var(--f-mono); letter-spacing: .12em; }
+.bus-door { position: absolute; z-index: 4; top: 36px; left: 248px; width: 60px; height: 133px; border: 2px solid #263a46; border-radius: 5px 5px 10px 10px; background: linear-gradient(145deg, rgba(246,249,250,.96), rgba(160,174,182,.92)); box-shadow: 0 0 0 1px rgba(255,255,255,.42); }
+.bus-door i { position: absolute; top: 8px; right: 7px; left: 7px; height: 47px; border-radius: 3px; background: linear-gradient(140deg, #0a1721, #21485d); box-shadow: inset 0 0 13px #071019; }
 .bus-door span { position: absolute; top: 77px; right: 7px; width: 3px; height: 12px; border-radius: 3px; background: #2b3d47; }
 .bus-bay { position: absolute; bottom: 14px; height: 38px; border: 1px solid rgba(35,53,63,.55); border-radius: 4px; background: linear-gradient(180deg, rgba(35,52,61,.08), rgba(27,44,53,.2)); box-shadow: inset 0 1px rgba(255,255,255,.35); }
 .bus-bay--1 { left: 23px; width: 143px; }.bus-bay--2 { left: 177px; width: 139px; }.bus-bay--3 { right: 22px; width: 91px; }
@@ -287,22 +295,25 @@ button, input, select, textarea { font: inherit; }
 .bus-wheel i { position: absolute; inset: 31px; z-index: 2; border-radius: 50%; background: radial-gradient(circle at 35% 32%, #dce5e9, #435660 70%); }
 .bus-wheel--rear { left: 69px; }.bus-wheel--front { right: 55px; }
 .bus-face--front, .bus-face--rear { top: 0; left: 212px; width: 136px; height: 190px; }
-.bus-face--front { border-radius: 8px 26px 16px 8px; background: linear-gradient(155deg, #e7edf0, #85959e 67%, #30424d); transform: rotateY(90deg) translateZ(280px); }
-.bus-windshield { position: absolute; top: 13px; right: 10px; left: 10px; height: 91px; overflow: hidden; border: 2px solid #7891a0; border-radius: 7px 19px 5px 5px; background: linear-gradient(145deg, #07111a 12%, #14384e 67%, #30708c); box-shadow: inset 0 0 22px #03080c; }
+.bus-face--front { border-radius: 8px 29px 15px 8px; background: linear-gradient(165deg, #e9eef0 0 47%, #63717a 48% 76%, #b7c2c7 77%); transform: rotateY(90deg) translateZ(280px); }
+.bus-windshield { position: absolute; top: 8px; right: 7px; left: 7px; height: 108px; overflow: hidden; border: 4px solid #10191f; border-radius: 5px 22px 4px 4px; background: linear-gradient(145deg, #050b10 12%, #123348 67%, #2e6a83); box-shadow: inset 0 0 25px #020507; clip-path: polygon(3% 4%, 77% 0, 94% 12%, 100% 27%, 100% 100%, 0 100%, 0 16%); }
 .bus-windshield::after { position: absolute; inset: 0; background: linear-gradient(113deg, transparent 17%, rgba(175,229,249,.25) 34%, transparent 52%); content: ""; }
-.bus-windshield i { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: rgba(178,205,217,.35); }
-.bus-frontline { position: absolute; top: 111px; right: 0; left: 0; height: 5px; background: linear-gradient(90deg, #175c7b, var(--blau), #175c7b); box-shadow: 0 0 12px rgba(110,216,255,.45); }
-.bus-light { position: absolute; top: 126px; width: 31px; height: 10px; border-radius: 2px 8px 8px 2px; background: #e9fbff; box-shadow: 0 0 12px rgba(167,235,255,.8); }.bus-light--l { left: 10px; }.bus-light--r { right: 10px; transform: scaleX(-1); }
-.bus-grille { position: absolute; right: 25px; bottom: 14px; left: 25px; display: grid; gap: 4px; }.bus-grille i { height: 2px; background: rgba(15,27,34,.75); }
-.bus-emblem { position: absolute; bottom: 35px; left: 50%; display: grid; width: 23px; height: 23px; place-items: center; border: 1px solid rgba(227,240,246,.8); border-radius: 50%; background: #1a2b35; color: var(--blau); font: 700 11px/1 var(--f-display); transform: translateX(-50%); }
+.bus-windshield i { position: absolute; top: 0; bottom: 0; left: 50%; width: 3px; background: #111c23; box-shadow: 1px 0 rgba(194,220,232,.25); }
+.bus-frontline { position: absolute; top: 118px; right: 0; left: 0; height: 4px; background: linear-gradient(90deg, #202d35, #77868e 22%, #202d35 50%, #77868e 78%, #202d35); box-shadow: 0 0 8px rgba(110,216,255,.2); }
+.bus-light { position: absolute; top: 131px; width: 35px; height: 11px; border-radius: 2px 10px 3px 8px; background: linear-gradient(90deg, #7ccfea, #f4fdff 55%, #8edff5); box-shadow: 0 0 11px rgba(167,235,255,.75); clip-path: polygon(0 22%,100% 0,83% 100%,8% 78%); }.bus-light--l { left: 8px; }.bus-light--r { right: 8px; transform: scaleX(-1); }
+.bus-grille { position: absolute; bottom: 3px; left: 50%; display: flex; width: 43px; height: 45px; align-items: stretch; justify-content: center; gap: 3px; padding: 5px 6px; border: 2px solid #465861; border-radius: 7px 7px 3px 3px; background: #070b0e; box-shadow: inset 0 0 8px #000; transform: translateX(-50%); }.bus-grille i { width: 3px; height: 100%; border-radius: 2px; background: #26343b; }
+.bus-emblem { position: absolute; bottom: 45px; left: 50%; display: grid; width: 18px; height: 18px; place-items: center; border: 1px solid rgba(227,240,246,.75); border-radius: 50%; background: #15242c; color: var(--blau); font: 700 9px/1 var(--f-display); transform: translateX(-50%); }
 .bus-face--rear { border-radius: 24px 6px 8px 15px; background: linear-gradient(145deg, #dce5e9, #71838d); transform: rotateY(-90deg) translateZ(280px); }
 .bus-rear-window { position: absolute; top: 14px; right: 12px; left: 12px; height: 68px; border: 1px solid #607d8c; border-radius: 16px 5px 5px 5px; background: linear-gradient(135deg, #09141d, #1d4054); box-shadow: inset 0 0 18px #050a0e; }
 .bus-tail { position: absolute; top: 96px; width: 8px; height: 48px; border-radius: 5px; background: linear-gradient(#ff5d57 0 36%, #ffcb68 37% 54%, #d91f2b 55%); box-shadow: 0 0 9px rgba(255,74,66,.5); }.bus-tail--l { left: 11px; }.bus-tail--r { right: 11px; }
 .bus-rear-panel { position: absolute; right: 27px; bottom: 16px; left: 27px; height: 30px; border: 1px solid #455b67; border-radius: 4px; background: rgba(21,36,45,.12); }.bus-face--rear > span { position: absolute; top: 103px; right: 0; left: 0; color: #2b414d; font: 600 7px/1 var(--f-mono); letter-spacing: .16em; text-align: center; }
 .bus-face--roof, .bus-face--floor { left: 0; width: 560px; height: 136px; }
 .bus-face--roof { top: 27px; overflow: visible; border-radius: 16px; background: linear-gradient(90deg, #7d8d96, #e5ebee 24%, #bac6cc 72%, #71818a); transform: rotateX(90deg) translateZ(95px); }
-.roof-panel { position: absolute; top: 20px; height: 90px; border: 2px solid #354c59; border-radius: 3px; background: repeating-linear-gradient(90deg, transparent 0 18px, rgba(117,191,216,.2) 19px 20px), repeating-linear-gradient(0deg, #0f2a3a 0 13px, #173e52 14px 15px); box-shadow: 0 2px 5px rgba(0,0,0,.25); }.roof-panel--1 { left: 72px; width: 118px; }.roof-panel--2 { left: 200px; width: 118px; }.roof-panel--3 { left: 328px; width: 91px; }
-.roof-dome { position: absolute; top: 42px; right: 58px; width: 72px; height: 52px; border: 2px solid #78909c; border-radius: 50%; background: radial-gradient(ellipse at 50% 24%, #eef5f7, #8a9aa2 70%); box-shadow: 0 8px 14px rgba(0,0,0,.2); transform: translateZ(16px); }.roof-air { position: absolute; top: 34px; left: 18px; width: 42px; height: 65px; border: 2px solid #5e737e; border-radius: 7px; background: linear-gradient(90deg, #9aaab2, #e0e7ea, #7f9099); transform: translateZ(9px); }
+.roof-panel { position: absolute; top: 20px; height: 90px; border: 2px solid #354c59; border-radius: 3px; background: repeating-linear-gradient(90deg, transparent 0 14px, rgba(117,191,216,.2) 15px 16px), repeating-linear-gradient(0deg, #0f2a3a 0 13px, #173e52 14px 15px); box-shadow: 0 2px 5px rgba(0,0,0,.25); }.roof-panel--1 { left: 72px; width: 78px; }.roof-panel--2 { left: 158px; width: 78px; }
+.roof-cabrio-opening { position: absolute; top: 12px; right: 16px; width: 215px; height: 112px; border: 5px solid #18262e; border-radius: 5px 15px 5px 5px; background: radial-gradient(ellipse at 48% 60%, rgba(218,156,98,.42), transparent 25%), linear-gradient(135deg, #020507, #173141 72%, #081018); box-shadow: inset 0 0 22px #000, 0 0 0 2px rgba(225,235,240,.55); transform: translateZ(2px); }
+.roof-cabrio-opening::after { position: absolute; inset: 8px; border: 1px solid rgba(137,190,212,.34); border-radius: 3px 10px 3px 3px; background: linear-gradient(125deg, transparent 25%, rgba(183,229,246,.14) 42%, transparent 59%); content: ""; }
+.roof-cabrio-cover { position: absolute; top: 8px; right: 182px; width: 80px; height: 119px; border: 2px solid #5b6d76; border-radius: 5px; background: linear-gradient(90deg, #7c8c94, #edf2f4 45%, #788991); box-shadow: 9px 0 14px rgba(0,0,0,.25); transform: translateZ(11px); }
+.roof-dome { position: absolute; top: 43px; left: 246px; width: 47px; height: 47px; border: 2px solid #78909c; border-radius: 50%; background: radial-gradient(ellipse at 50% 24%, #eef5f7, #8a9aa2 70%); box-shadow: 0 8px 14px rgba(0,0,0,.2); transform: translateZ(14px); }.roof-air { position: absolute; top: 34px; left: 18px; width: 42px; height: 65px; border: 2px solid #5e737e; border-radius: 7px; background: linear-gradient(90deg, #9aaab2, #e0e7ea, #7f9099); transform: translateZ(9px); }
 .bus-face--floor { top: 27px; background: #101920; transform: rotateX(-90deg) translateZ(95px); }
 .bus-hotspot { position: absolute; z-index: 12; display: grid; width: 35px; height: 35px; place-items: center; padding: 0; border: 1px solid var(--blau); border-radius: 50%; background: rgba(7,11,16,.91); color: var(--eis); font: 500 9px/1 var(--f-mono); cursor: pointer; transform: translate(-50%,-50%) translateZ(8px); transition: background .2s, color .2s, scale .2s; }
 .bus-hotspot::after { position: absolute; inset: -8px; border: 1px solid var(--blau); border-radius: 50%; content: ""; opacity: .35; animation: hotspot 2.8s ease-out infinite; }
@@ -310,7 +321,7 @@ button, input, select, textarea { font: inherit; }
 .bus-hotspot--kamera { top: 41%; right: -2%; }.bus-hotspot--smart { top: 50%; left: 55%; }.bus-hotspot--internet { top: 4%; left: 70%; }.bus-hotspot--security { top: 41%; right: 13%; }.bus-hotspot--autarkie { top: 82%; left: 39%; }
 .vehicle-hint { position: absolute; z-index: 4; right: 16px; bottom: 13px; left: 16px; color: #6f818d; font: 500 .57rem/1.4 var(--f-mono); letter-spacing: .06em; text-align: center; text-transform: uppercase; pointer-events: none; }.vehicle-hint span { margin-right: 6px; color: var(--blau); font-size: .85rem; }
 @keyframes hotspot { from { opacity: .5; transform: scale(.7); } to { opacity: 0; transform: scale(1.5); } }
-@keyframes vehicle-orbit { 0%,100% { transform: translate3d(-50%,-50%,0) rotateX(-7deg) rotateY(-28deg) scale(var(--vehicle-scale)); } 50% { transform: translate3d(-50%,-50%,0) rotateX(-7deg) rotateY(-8deg) scale(var(--vehicle-scale)); } }
+@keyframes vehicle-orbit { 0%,100% { transform: translate3d(-50%,-50%,0) rotateX(-7deg) rotateY(28deg) scale(var(--vehicle-scale)); } 50% { transform: translate3d(-50%,-50%,0) rotateX(-7deg) rotateY(8deg) scale(var(--vehicle-scale)); } }
 @keyframes vehicle-scan { 0%,100% { transform: translateX(-44%); } 50% { transform: translateX(48%); } }
 .modul-legende { display: flex; flex-wrap: wrap; gap: 7px; padding: 14px 16px; border-top: 1px solid var(--linie); }
 .modul-legende button { padding: .6em .9em; border: 1px solid var(--linie); border-radius: 100px; background: transparent; color: #8998a3; font: 500 .7rem/1 var(--f-mono); cursor: pointer; }
@@ -718,7 +729,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
         <div class="sek__kopf command__kopf"><p class="label">Skydancer Command Center</p><h2 id="command-titel">Alle Systeme.<br />Eine klare Oberfläche.</h2><p>Wählen Sie einen Systempunkt am Fahrzeug. Sie sehen, welche Technik dort arbeitet und wie sie mit dem Gesamtsystem zusammenspielt.</p></div>
         <div class="command__layout">
           <div class="fahrzeug">
-            <div class="fahrzeug__kopf"><span>Systemarchitektur</span><span>Grand Tourer · Interaktives 3D-Modell</span></div>
+            <div class="fahrzeug__kopf"><span>Systemarchitektur</span><span>Skydancer 2B Cabrio · Interaktives 3D-Modell</span></div>
             <div class="fahrzeug__buehne fahrzeug__buehne--3d">
               <div class="vehicle-badge"><i></i> 3D Live View</div>
               <div class="vehicle-scene" data-vehicle-scene tabindex="0" role="group" aria-label="Drehbares 3D-Modell eines busförmigen Luxus-Reisemobils. Mit Maus oder Finger ziehen, um das Fahrzeug zu drehen.">
@@ -726,8 +737,10 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
                 <div class="vehicle-orbit" data-vehicle-orbit>
                   <div class="bus-3d">
                     <div class="bus-face bus-face--side bus-face--side-a">
-                      <div class="bus-glass"><i></i><i></i><i></i><i></i><i></i></div>
-                      <div class="bus-swoosh"></div><div class="bus-brand"><b>SKYDANCER</b><span>GRAND TOURER</span></div>
+                      <div class="skydancer-rear-window"></div>
+                      <div class="skydancer-cockpit"><i class="cockpit-glass cockpit-glass--salon"></i><i class="cockpit-glass cockpit-glass--lower"></i><i class="cockpit-glass cockpit-glass--driver"></i><span class="cockpit-seat cockpit-seat--1"></span><span class="cockpit-seat cockpit-seat--2"></span></div>
+                      <div class="cabrio-rail"><i></i></div>
+                      <div class="bus-swoosh"></div><div class="bus-brand"><b>skydancer</b><span>CABRIO · 2B</span></div>
                       <div class="bus-door"><i></i><span></span></div>
                       <div class="bus-bay bus-bay--1"></div><div class="bus-bay bus-bay--2"></div><div class="bus-bay bus-bay--3"></div>
                       <div class="bus-wheel bus-wheel--rear"><i></i><span></span></div><div class="bus-wheel bus-wheel--front"><i></i><span></span></div>
@@ -738,15 +751,17 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
                       <button class="bus-hotspot bus-hotspot--autarkie" type="button" data-modul="autarkie" aria-pressed="false" aria-label="Autarkie und Komfort anzeigen"><span>05</span></button>
                     </div>
                     <div class="bus-face bus-face--side bus-face--side-b">
-                      <div class="bus-glass"><i></i><i></i><i></i><i></i><i></i></div>
-                      <div class="bus-swoosh"></div><div class="bus-brand"><b>SKYDANCER</b><span>GRAND TOURER</span></div>
+                      <div class="skydancer-rear-window"></div>
+                      <div class="skydancer-cockpit"><i class="cockpit-glass cockpit-glass--salon"></i><i class="cockpit-glass cockpit-glass--lower"></i><i class="cockpit-glass cockpit-glass--driver"></i><span class="cockpit-seat cockpit-seat--1"></span><span class="cockpit-seat cockpit-seat--2"></span></div>
+                      <div class="cabrio-rail"><i></i></div>
+                      <div class="bus-swoosh"></div><div class="bus-brand"><b>skydancer</b><span>CABRIO · 2B</span></div>
                       <div class="bus-door"><i></i><span></span></div>
                       <div class="bus-bay bus-bay--1"></div><div class="bus-bay bus-bay--2"></div><div class="bus-bay bus-bay--3"></div>
                       <div class="bus-wheel bus-wheel--rear"><i></i><span></span></div><div class="bus-wheel bus-wheel--front"><i></i><span></span></div>
                     </div>
                     <div class="bus-face bus-face--front"><div class="bus-windshield"><i></i></div><div class="bus-frontline"></div><i class="bus-light bus-light--l"></i><i class="bus-light bus-light--r"></i><div class="bus-grille"><i></i><i></i><i></i><i></i><i></i></div><span class="bus-emblem">S</span></div>
                     <div class="bus-face bus-face--rear"><div class="bus-rear-window"></div><i class="bus-tail bus-tail--l"></i><i class="bus-tail bus-tail--r"></i><div class="bus-rear-panel"></div><span>SKYDANCER</span></div>
-                    <div class="bus-face bus-face--roof"><i class="roof-panel roof-panel--1"></i><i class="roof-panel roof-panel--2"></i><i class="roof-panel roof-panel--3"></i><i class="roof-dome"></i><i class="roof-air"></i></div>
+                    <div class="bus-face bus-face--roof"><i class="roof-panel roof-panel--1"></i><i class="roof-panel roof-panel--2"></i><i class="roof-cabrio-opening"></i><i class="roof-cabrio-cover"></i><i class="roof-dome"></i><i class="roof-air"></i></div>
                     <div class="bus-face bus-face--floor"></div>
                   </div>
                 </div>
@@ -848,7 +863,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 
   var vehicleScene = document.querySelector("[data-vehicle-scene]");
   if (vehicleScene) {
-    var vehicleAngle = -20;
+    var vehicleAngle = 20;
     var dragStartX = 0;
     var dragStartAngle = vehicleAngle;
     var draggingVehicle = false;
@@ -885,7 +900,7 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
     vehicleScene.addEventListener("pointercancel", stopVehicleDrag);
     vehicleScene.addEventListener("dblclick", function (event) {
       if (event.target.closest("[data-modul]")) return;
-      vehicleAngle = -20;
+      vehicleAngle = 20;
       vehicleScene.classList.remove("is-manual", "is-dragging");
     });
     vehicleScene.addEventListener("keydown", function (event) {
