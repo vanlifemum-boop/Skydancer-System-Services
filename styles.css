@@ -202,7 +202,7 @@ button, input, select, textarea { font: inherit; }
 .fahrzeug__buehne--3d::before { position: absolute; z-index: -1; inset: 0; background: linear-gradient(116deg, transparent 15%, rgba(110,216,255,.045) 49%, transparent 72%); content: ""; transform: translateX(-35%); animation: vehicle-scan 7s ease-in-out infinite; }
 .vehicle-badge { position: absolute; z-index: 5; top: 18px; left: 18px; display: flex; align-items: center; gap: 8px; padding: 7px 10px; border: 1px solid rgba(110,216,255,.24); border-radius: 100px; background: rgba(7,11,16,.58); color: #a8bbc6; font: 500 .59rem/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; backdrop-filter: blur(8px); }
 .vehicle-badge i { width: 6px; height: 6px; border-radius: 50%; background: var(--gruen); box-shadow: 0 0 12px var(--gruen); }
-.vehicle-scene { --vehicle-drag: 0px; position: absolute; z-index: 2; inset: 0; overflow: hidden; outline: none; cursor: grab; touch-action: pan-y; -webkit-user-select: none; user-select: none; }
+.vehicle-scene { --vehicle-drag: 0px; --vehicle-tilt: 0deg; position: absolute; z-index: 2; inset: 0; overflow: hidden; outline: none; cursor: grab; perspective: 1200px; touch-action: pan-y; -webkit-user-select: none; user-select: none; }
 .vehicle-scene:focus-visible { outline: 1px solid var(--blau); outline-offset: -5px; }
 .vehicle-scene.is-dragging { cursor: grabbing; }
 .vehicle-shadow { position: absolute; top: 74%; left: 50%; width: min(72%, 650px); height: 48px; border-radius: 50%; background: rgba(0,0,0,.68); filter: blur(20px); opacity: .8; transform: translate(-50%, -50%); }
@@ -212,16 +212,44 @@ button, input, select, textarea { font: inherit; }
 .vehicle-view[data-vehicle-view="front"] { --view-scale: 1.2; }
 .vehicle-view[data-vehicle-view="side"] { --view-scale: 1; }
 .vehicle-view[data-vehicle-view="rear"] { --view-scale: 1.14; }
-.vehicle-view.is-active { z-index: 2; opacity: 1; filter: drop-shadow(0 24px 22px rgba(0,0,0,.42)); transform: translate3d(var(--vehicle-drag), 0, 0) scale(var(--view-scale)); }
+.vehicle-view.is-active { z-index: 2; opacity: 1; filter: drop-shadow(0 24px 22px rgba(0,0,0,.42)); transform: translate3d(var(--vehicle-drag), 0, 0) rotateY(var(--vehicle-tilt)) scale(var(--view-scale)); }
 .vehicle-scene.is-dragging .vehicle-view.is-active { filter: drop-shadow(0 16px 16px rgba(0,0,0,.36)); transition-duration: .08s; }
 .vehicle-wordmark { position: absolute; z-index: 4; right: 2%; bottom: 3%; display: flex; align-items: baseline; gap: 9px; color: rgba(232,242,247,.76); text-shadow: 0 2px 12px #06101a; pointer-events: none; }
 .vehicle-wordmark strong { font: 500 1rem/1 var(--f-display); letter-spacing: -.03em; }
 .vehicle-wordmark span { color: #88a0ad; font: 500 .5rem/1 var(--f-mono); letter-spacing: .13em; }
+.vehicle-hotspots { position: absolute; z-index: 5; inset: 0; pointer-events: none; }
+.vehicle-hotspot { --hotspot-x: 50%; --hotspot-y: 50%; position: absolute; top: var(--hotspot-y); left: var(--hotspot-x); width: 1px; height: 1px; padding: 0; border: 0; background: transparent; color: var(--blau); cursor: pointer; pointer-events: auto; transition: top .5s ease, left .5s ease; }
+.vehicle-hotspot::before { position: absolute; z-index: 2; top: -5px; left: -5px; width: 10px; height: 10px; border: 2px solid currentColor; border-radius: 50%; background: #081018; box-shadow: 0 0 0 6px rgba(110,216,255,.09), 0 0 16px rgba(110,216,255,.7); content: ""; }
+.vehicle-hotspot::after { position: absolute; bottom: 3px; left: 0; width: 1px; height: 23px; background: linear-gradient(0deg, currentColor, rgba(110,216,255,.22)); content: ""; transform-origin: bottom; }
+.vehicle-hotspot__icon { position: absolute; z-index: 2; bottom: 24px; left: 0; display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid rgba(110,216,255,.58); border-radius: 50%; background: rgba(5,11,17,.9); box-shadow: 0 8px 22px rgba(0,0,0,.38); color: #bdeeff; transform: translateX(-50%); backdrop-filter: blur(8px); transition: background .2s ease, color .2s ease, transform .2s ease; }
+.vehicle-hotspot__icon svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.vehicle-hotspot__label { position: absolute; z-index: 1; bottom: 28px; left: 22px; padding: 7px 10px 7px 17px; border: 1px solid rgba(110,216,255,.24); border-radius: 0 100px 100px 0; background: rgba(5,11,17,.84); color: #b4c4ce; font: 500 .53rem/1 var(--f-mono); letter-spacing: .035em; white-space: nowrap; opacity: .82; backdrop-filter: blur(8px); transition: border-color .2s ease, color .2s ease, opacity .2s ease; }
+.vehicle-hotspot--left .vehicle-hotspot__label { right: 22px; left: auto; padding-right: 17px; padding-left: 10px; border-radius: 100px 0 0 100px; }
+.vehicle-hotspot:hover, .vehicle-hotspot:focus-visible, .vehicle-hotspot[aria-pressed="true"] { color: #77e4aa; outline: none; }
+.vehicle-hotspot:hover .vehicle-hotspot__icon, .vehicle-hotspot:focus-visible .vehicle-hotspot__icon, .vehicle-hotspot[aria-pressed="true"] .vehicle-hotspot__icon { border-color: currentColor; background: #0e2630; color: #d6fff0; transform: translateX(-50%) scale(1.1); }
+.vehicle-hotspot:hover .vehicle-hotspot__label, .vehicle-hotspot:focus-visible .vehicle-hotspot__label, .vehicle-hotspot[aria-pressed="true"] .vehicle-hotspot__label { border-color: rgba(119,228,170,.46); color: #e5fff1; opacity: 1; }
+.vehicle-hotspot[aria-pressed="true"]::before { animation: hotspot-pulse 1.8s ease-out infinite; }
+.vehicle-scene[data-vehicle-angle="front"] .vehicle-hotspot--kamera { --hotspot-x: 81%; --hotspot-y: 58%; }
+.vehicle-scene[data-vehicle-angle="front"] .vehicle-hotspot--smart { --hotspot-x: 53%; --hotspot-y: 52%; }
+.vehicle-scene[data-vehicle-angle="front"] .vehicle-hotspot--internet { --hotspot-x: 52%; --hotspot-y: 27%; }
+.vehicle-scene[data-vehicle-angle="front"] .vehicle-hotspot--security { --hotspot-x: 42%; --hotspot-y: 57%; }
+.vehicle-scene[data-vehicle-angle="front"] .vehicle-hotspot--autarkie { --hotspot-x: 64%; --hotspot-y: 69%; }
+.vehicle-scene[data-vehicle-angle="side"] .vehicle-hotspot--kamera { --hotspot-x: 82%; --hotspot-y: 50%; }
+.vehicle-scene[data-vehicle-angle="side"] .vehicle-hotspot--smart { --hotspot-x: 50%; --hotspot-y: 53%; }
+.vehicle-scene[data-vehicle-angle="side"] .vehicle-hotspot--internet { --hotspot-x: 61%; --hotspot-y: 27%; }
+.vehicle-scene[data-vehicle-angle="side"] .vehicle-hotspot--security { --hotspot-x: 43%; --hotspot-y: 57%; }
+.vehicle-scene[data-vehicle-angle="side"] .vehicle-hotspot--autarkie { --hotspot-x: 67%; --hotspot-y: 68%; }
+.vehicle-scene[data-vehicle-angle="rear"] .vehicle-hotspot--kamera { --hotspot-x: 20%; --hotspot-y: 50%; }
+.vehicle-scene[data-vehicle-angle="rear"] .vehicle-hotspot--smart { --hotspot-x: 58%; --hotspot-y: 53%; }
+.vehicle-scene[data-vehicle-angle="rear"] .vehicle-hotspot--internet { --hotspot-x: 53%; --hotspot-y: 27%; }
+.vehicle-scene[data-vehicle-angle="rear"] .vehicle-hotspot--security { --hotspot-x: 25%; --hotspot-y: 58%; }
+.vehicle-scene[data-vehicle-angle="rear"] .vehicle-hotspot--autarkie { --hotspot-x: 71%; --hotspot-y: 67%; }
 .vehicle-views { position: absolute; z-index: 6; bottom: 38px; left: 50%; display: flex; gap: 6px; padding: 4px; border: 1px solid rgba(255,255,255,.09); border-radius: 100px; background: rgba(5,10,15,.72); box-shadow: 0 10px 28px rgba(0,0,0,.2); transform: translateX(-50%); backdrop-filter: blur(10px); }
 .vehicle-views button { min-width: 58px; padding: 7px 11px; border: 0; border-radius: 100px; background: transparent; color: #7f919d; font: 500 .61rem/1 var(--f-mono); cursor: pointer; transition: background .2s, color .2s; }
 .vehicle-views button:hover, .vehicle-views button.is-active { background: rgba(110,216,255,.14); color: var(--eis); }
 .vehicle-hint { position: absolute; z-index: 4; right: 16px; bottom: 10px; left: 16px; color: #6f818d; font: 500 .55rem/1.4 var(--f-mono); letter-spacing: .06em; text-align: center; text-transform: uppercase; pointer-events: none; }.vehicle-hint span { margin-right: 6px; color: var(--blau); font-size: .85rem; }
 @keyframes vehicle-scan { 0%,100% { transform: translateX(-44%); } 50% { transform: translateX(48%); } }
+@keyframes hotspot-pulse { 0% { box-shadow: 0 0 0 4px rgba(119,228,170,.18), 0 0 14px rgba(119,228,170,.7); } 70%,100% { box-shadow: 0 0 0 15px rgba(119,228,170,0), 0 0 22px rgba(119,228,170,.15); } }
 .modul-legende { display: flex; flex-wrap: wrap; gap: 7px; padding: 14px 16px; border-top: 1px solid var(--linie); }
 .modul-legende button { padding: .6em .9em; border: 1px solid var(--linie); border-radius: 100px; background: transparent; color: #8998a3; font: 500 .7rem/1 var(--f-mono); cursor: pointer; }
 .modul-legende button:hover, .modul-legende button[aria-pressed="true"] { border-color: var(--blau); color: var(--eis); }
@@ -494,6 +522,10 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   .vehicle-turntable { top: 49%; width: 103%; height: 74%; }
   .vehicle-shadow { top: 71%; width: 68%; height: 34px; }
   .vehicle-wordmark { display: none; }
+  .vehicle-hotspot__label { display: none; }
+  .vehicle-hotspot[aria-pressed="true"] .vehicle-hotspot__label { display: block; }
+  .vehicle-hotspot__icon { width: 31px; height: 31px; }
+  .vehicle-hotspot__icon svg { width: 17px; height: 17px; }
   .vehicle-views { bottom: 36px; }
   .vehicle-hint { bottom: 10px; font-size: .5rem; }
   .modul { min-height: 390px; padding: 24px; }
@@ -530,6 +562,9 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
   .fahrzeug__buehne--3d { min-height: 300px; }
   .vehicle-turntable { top: 48%; width: 112%; height: 70%; }
   .vehicle-badge { top: 12px; left: 12px; }
+  .vehicle-badge { max-width: calc(100% - 24px); font-size: .52rem; }
+  .vehicle-hotspot__icon { width: 29px; height: 29px; }
+  .vehicle-hotspot__label { bottom: 26px; max-width: 112px; overflow: hidden; text-overflow: ellipsis; }
   .vehicle-views button { min-width: 52px; padding-inline: 9px; }
   .vehicle-hint { right: 9px; left: 9px; letter-spacing: .03em; }
   .formular__nav { align-items: stretch; flex-direction: column-reverse; }

@@ -38,10 +38,10 @@
     var vehicleSelectors = Array.from(document.querySelectorAll("[data-vehicle-select]"));
     var vehicleOrder = ["front", "side", "rear"];
     var currentVehicleView = 0;
-    var dragStartX = 0;
+    var dragAnchorX = 0;
     var dragDistance = 0;
     var draggingVehicle = false;
-    var vehicleAutoplay = null;
+    var vehicleStep = 68;
 
     function showVehicleView(index) {
       currentVehicleView = (index + vehicleOrder.length) % vehicleOrder.length;
@@ -56,29 +56,18 @@
         button.classList.toggle("is-active", isActive);
         button.setAttribute("aria-pressed", String(isActive));
       });
+      vehicleScene.dataset.vehicleAngle = selected;
       vehicleScene.style.setProperty("--vehicle-drag", "0px");
-    }
-
-    function stopVehicleAutoplay() {
-      if (!vehicleAutoplay) return;
-      window.clearInterval(vehicleAutoplay);
-      vehicleAutoplay = null;
-    }
-
-    function startVehicleAutoplay() {
-      stopVehicleAutoplay();
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      vehicleAutoplay = window.setInterval(function () {
-        showVehicleView(currentVehicleView + 1);
-      }, 5200);
+      vehicleScene.style.setProperty("--vehicle-tilt", "0deg");
     }
 
     function stopVehicleDrag(event) {
       if (!draggingVehicle) return;
       draggingVehicle = false;
       vehicleScene.classList.remove("is-dragging");
-      if (Math.abs(dragDistance) > 42) showVehicleView(currentVehicleView + (dragDistance < 0 ? 1 : -1));
+      if (Math.abs(dragDistance) > 24) showVehicleView(currentVehicleView + (dragDistance < 0 ? 1 : -1));
       vehicleScene.style.setProperty("--vehicle-drag", "0px");
+      vehicleScene.style.setProperty("--vehicle-tilt", "0deg");
       if (event && vehicleScene.hasPointerCapture && vehicleScene.hasPointerCapture(event.pointerId)) {
         vehicleScene.releasePointerCapture(event.pointerId);
       }
@@ -86,35 +75,38 @@
 
     vehicleScene.addEventListener("pointerdown", function (event) {
       if (event.pointerType === "mouse" && event.button !== 0) return;
+      if (event.target.closest("[data-hotspot]")) return;
       draggingVehicle = true;
-      dragStartX = event.clientX;
+      dragAnchorX = event.clientX;
       dragDistance = 0;
-      stopVehicleAutoplay();
       vehicleScene.classList.add("is-dragging");
       vehicleScene.setPointerCapture(event.pointerId);
     });
     vehicleScene.addEventListener("pointermove", function (event) {
       if (!draggingVehicle) return;
-      dragDistance = event.clientX - dragStartX;
-      var visibleDrag = Math.max(-28, Math.min(28, dragDistance * .18));
+      dragDistance = event.clientX - dragAnchorX;
+      if (Math.abs(dragDistance) >= vehicleStep) {
+        showVehicleView(currentVehicleView + (dragDistance < 0 ? 1 : -1));
+        dragAnchorX = event.clientX;
+        dragDistance = 0;
+      }
+      var visibleDrag = Math.max(-20, Math.min(20, dragDistance * .2));
       vehicleScene.style.setProperty("--vehicle-drag", visibleDrag + "px");
+      vehicleScene.style.setProperty("--vehicle-tilt", Math.max(-5, Math.min(5, dragDistance * -.055)) + "deg");
     });
     vehicleScene.addEventListener("pointerup", stopVehicleDrag);
     vehicleScene.addEventListener("pointercancel", stopVehicleDrag);
     vehicleScene.addEventListener("keydown", function (event) {
       if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
       event.preventDefault();
-      stopVehicleAutoplay();
       showVehicleView(currentVehicleView + (event.key === "ArrowRight" ? 1 : -1));
     });
     vehicleSelectors.forEach(function (button) {
       button.addEventListener("click", function () {
-        stopVehicleAutoplay();
         showVehicleView(vehicleOrder.indexOf(button.dataset.vehicleSelect));
       });
     });
     showVehicleView(0);
-    startVehicleAutoplay();
   }
 
   var modules = {
