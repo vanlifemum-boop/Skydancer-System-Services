@@ -181,15 +181,23 @@
   var error = document.getElementById("fehler");
   var current = 1;
   var summaryText = "";
-  var names = { kamera: "Kamera & Sicht", smart: "SmartCamper", internet: "Internet Pro", security: "Security & Recovery", autarkie: "Autarkie & Komfort" };
+  var names = { kamera: "Kamera & Sicht", smart: "SmartCamper", internet: "Internet Pro", security: "Security & Recovery", autarkie: "Autarkie & Komfort", cabrio: "Cabrio-Dach" };
 
   function selected() {
     return Array.prototype.map.call(form.querySelectorAll('input[name="baustein"]:checked'), function (input) { return input.value; });
   }
 
-  function recommendation(selection) {
+  function recommendation(all) {
+    if (!all.length) return null;
+    var withCabrio = all.indexOf("cabrio") !== -1;
+    var rest = all.filter(function (value) { return value !== "cabrio"; });
+    if (!rest.length) return { name: "Cabrio-Dach", price: "Preis nach Machbarkeitsprüfung" };
+    var result = packageFor(rest);
+    return withCabrio ? { name: result.name + " + Cabrio-Dach", price: result.price + " · Cabrio-Dach nach Prüfung" } : result;
+  }
+
+  function packageFor(selection) {
     function has(value) { return selection.indexOf(value) !== -1; }
-    if (!selection.length) return null;
     if (has("autarkie") && selection.length >= 3) return { name: "Expedition Signature", price: "ab 31.900 €" };
     if (has("kamera") && has("smart") && has("internet") && has("security")) return { name: "Command Center", price: "ab 19.900 €" };
     if ((has("kamera") || has("security")) && !has("smart") && !has("internet") && !has("autarkie")) return { name: "Vision & Security", price: "ab 9.500 €" };
@@ -306,6 +314,38 @@
         try { document.execCommand("copy"); done(); } catch (ignore) { copyStatus.textContent = "Kopieren war nicht möglich. Bitte markieren Sie die Angaben manuell."; }
         document.body.removeChild(area);
       }
+    });
+  }
+  /* Cabrio-Dach: Machbarkeitsanfrage als vorbereitete E-Mail */
+  var cabrioForm = document.getElementById("cabrio-anfrage");
+  if (cabrioForm) {
+    cabrioForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      function value(id) { return document.getElementById(id).value.trim(); }
+      var missing = ["c-hersteller", "c-modell", "c-name", "c-kontakt"].filter(function (id) { return !value(id); });
+      var cabrioError = document.getElementById("c-fehler");
+      if (missing.length) {
+        cabrioError.textContent = "Bitte ergänzen Sie Hersteller, Modell, Ihren Namen und wie wir Sie erreichen.";
+        cabrioError.hidden = false;
+        document.getElementById(missing[0]).focus();
+        return;
+      }
+      cabrioError.hidden = true;
+      var roof = Array.prototype.map.call(cabrioForm.querySelectorAll('input[name="c-dach"]:checked'), function (input) { return input.value; });
+      var lines = [
+        "Ist ein Cabrio-Dach für mein Fahrzeug möglich?",
+        "",
+        "Fahrzeug: " + [value("c-hersteller"), value("c-modell"), value("c-baujahr"), document.getElementById("c-typ").value, value("c-laenge") ? value("c-laenge") + " m" : "", document.getElementById("c-zgg").value].filter(Boolean).join(" · "),
+        "Auf dem Dach: " + (roof.length ? roof.join(", ") : "nichts angegeben"),
+        "Wünsche: " + (value("c-nachricht") || "–"),
+        "Name: " + value("c-name"),
+        "Erreichbar unter: " + value("c-kontakt")
+      ];
+      var body = "Guten Tag,\n\n" + lines.join("\n") + "\n\nViele Grüße";
+      window.location.href = "mailto:milakubinsky@gmail.com?subject=" + encodeURIComponent("Cabrio-Dach: " + value("c-hersteller") + " " + value("c-modell")) + "&body=" + encodeURIComponent(body);
+      var after = document.getElementById("c-danach");
+      after.hidden = false;
+      after.focus();
     });
   }
 })();
